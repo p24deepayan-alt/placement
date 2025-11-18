@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const ChevronRightIcon: React.FC<{className?: string}> = ({ className }) => (
@@ -13,7 +12,6 @@ const Breadcrumbs: React.FC = () => {
         { label: 'Home', href: '#' },
         { label: 'Academics', href: '#' },
         { label: 'MBA-FABM', href: '#' },
-        { label: 'Careers and Placemen...', href: '#' },
     ];
 
     return (

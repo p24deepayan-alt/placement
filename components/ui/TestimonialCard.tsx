@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from "../../lib/utils";
-import { Avatar, AvatarImage } from "./Avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "./Avatar";
 
 export interface TestimonialAuthor {
   name: string;
@@ -24,6 +24,16 @@ export function TestimonialCard({
 }: TestimonialCardProps) {
   const Card = href ? "a" : "div";
 
+  const getInitials = (name: string) => {
+    if (!name) return '??';
+    const names = name.split(' ').filter(Boolean);
+    if (names.length === 0) return '??';
+    if (names.length === 1) {
+      return names[0].substring(0, 2).toUpperCase();
+    }
+    return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+  };
+
   return (
     <Card
       {...(href ? { href } : {})}
@@ -40,7 +50,11 @@ export function TestimonialCard({
     >
       <div className="flex items-center gap-3">
         <Avatar className="h-12 w-12">
-          <AvatarImage src={author.avatar} alt={author.name} />
+          {author.avatar ? (
+            <AvatarImage src={author.avatar} alt={author.name} />
+          ) : (
+            <AvatarFallback>{getInitials(author.name)}</AvatarFallback>
+          )}
         </Avatar>
         <div className="flex flex-col items-start">
           <h3 className="text-md font-bold font-display text-iima-blue leading-none">

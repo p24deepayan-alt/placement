@@ -5,7 +5,7 @@ interface IimaLogoProps {
 }
 
 const IimaLogo: React.FC<IimaLogoProps> = ({ className }) => {
-  const logoSrc = "/logo.png";
+  const logoSrc = "logo.png";
   
   return (
     <img 

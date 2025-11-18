@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { TestimonialsWithMarquee } from './TestimonialsWithMarquee';
 
 const ProgramCard: React.FC<{ title: string; subtitle: string; description: string; href: string; profilesHref: string; coordinatorsHref: string }> = ({ title, subtitle, description, href, profilesHref, coordinatorsHref }) => (
   <div className="bg-white p-10 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full border border-gray-200/75">
@@ -52,6 +51,48 @@ const DocumentIcon: React.FC<{className?: string}> = ({ className }) => (
 const AccordionItem: React.FC<{ program: string; isOpen: boolean; onToggle: () => void; }> = ({ program, isOpen, onToggle }) => {
     const years = Array.from({ length: 5 }, (_, i) => 2024 - i);
 
+    const renderContent = () => {
+        if (program === 'PGP' || program === 'PGP-FABM') {
+            return (
+                <div className="py-4 px-2 grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div>
+                        <h4 className="text-xl font-display text-iima-blue/90 mb-4 pl-3">Summer Internship Placements</h4>
+                        <div className="space-y-2">
+                            {years.map(year => (
+                                <a href="#" key={`summer-${program}-${year}`} className="flex items-center p-3 text-gray-600 rounded-md hover:bg-gray-100 hover:text-iima-blue font-body transition-colors group">
+                                    <DocumentIcon className="w-5 h-5 mr-3 text-gray-400 group-hover:text-iima-blue transition-colors" />
+                                    IPRS Report {year}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="text-xl font-display text-iima-blue/90 mb-4 pl-3">Final Placements</h4>
+                        <div className="space-y-2">
+                            {years.map(year => (
+                                <a href="#" key={`final-${program}-${year}`} className="flex items-center p-3 text-gray-600 rounded-md hover:bg-gray-100 hover:text-iima-blue font-body transition-colors group">
+                                    <DocumentIcon className="w-5 h-5 mr-3 text-gray-400 group-hover:text-iima-blue transition-colors" />
+                                    IPRS Report {year}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="py-4 px-2 space-y-2">
+                {years.map(year => (
+                    <a href="#" key={`${program}-${year}`} className="flex items-center p-3 text-gray-600 rounded-md hover:bg-gray-100 hover:text-iima-blue font-body transition-colors group">
+                        <DocumentIcon className="w-5 h-5 mr-3 text-gray-400 group-hover:text-iima-blue transition-colors" />
+                        IPRS Report {year}
+                    </a>
+                ))}
+            </div>
+        );
+    };
+
     return (
         <div className="border-b border-gray-200">
             <h2>
@@ -68,23 +109,16 @@ const AccordionItem: React.FC<{ program: string; isOpen: boolean; onToggle: () =
             </h2>
             <div
                 id={`accordion-content-${program}`}
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? 'max-h-96' : 'max-h-0'}`}
+                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? 'max-h-[40rem]' : 'max-h-0'}`}
             >
-                <div className="py-4 px-2 space-y-2">
-                    {years.map(year => (
-                        <a href="#" key={`${program}-${year}`} className="flex items-center p-3 text-gray-600 rounded-md hover:bg-gray-100 hover:text-iima-blue font-body transition-colors group">
-                            <DocumentIcon className="w-5 h-5 mr-3 text-gray-400 group-hover:text-iima-blue transition-colors" />
-                            IPRS Report {year}
-                        </a>
-                    ))}
-                </div>
+                {renderContent()}
             </div>
         </div>
     );
 };
 
 const Content: React.FC = () => {
-  const [openAccordion, setOpenAccordion] = useState('PGP');
+  const [openAccordion, setOpenAccordion] = useState<string | null>('PGP');
   const iprsPrograms = ['PGP', 'PGP-FABM', 'PGPX'];
   
   const programs = [
@@ -119,71 +153,6 @@ const Content: React.FC = () => {
     { name: 'Abdulrazak Munshi', designation: 'Assistant Manager', email: 'plcoffice', phone: '4668' },
     { name: 'Grishma Nair', designation: 'Executive', email: 'plcops', phone: '4669' },
     { name: 'Bhavesh Chauhan', designation: 'Executive', email: 'plcstaff', phone: '4667' },
-  ];
-
-  const testimonials = [
-    {
-      author: {
-        name: "Saurabh Chhajer",
-        handle: "@BCG",
-        avatar: ""
-      },
-      text: "IIM-A has consistently been one of our preferred campuses, delivering exceptional talent year after year. We are thrilled to onboard some really outstanding candidates this cycle."
-    },
-    {
-      author: {
-        name: "Milind Kulkarni",
-        handle: "@FinIQ",
-        avatar: ""
-      },
-      text: "FinIQ is delighted to have yet another fruitful round of recruitment at IIM Ahmedabad. Expansion into more markets worldwide needs a very unique combination of financial and technical skills."
-    },
-    {
-      author: {
-        name: "Navi Technologies Team",
-        handle: "@Navi",
-        avatar: ""
-      },
-      text: "The calibre of talent from IIMA aligns perfectly with our recruitment needs, providing us with future leaders who excel in both technical expertise and problem-solving skills."
-    },
-    {
-      author: {
-        name: "Sayan Chakrabarty",
-        handle: "@Vector",
-        avatar: ""
-      },
-      text: "The quality of students at IIMA impresses every time which is why we decided to ramp up our Summer Internship numbers significantly this year. IIMA has been a partner campus for more than a decade."
-    }
-  ];
-
-  const recruiters = [
-    { name: 'BCG', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/30/BCG_logo_in_2021.svg' },
-    { name: 'McKinsey & Company', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/McKinsey_%26_Company_logo.svg/2560px-McKinsey_%26_Company_logo.svg.png' },
-    { name: 'Bain & Company', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Bain_and_Company_logo.svg/2560px-Bain_and_Company_logo.svg.png' },
-    { name: 'Kearney', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Kearney_logo.svg/1280px-Kearney_logo.svg.png' },
-    { name: 'Accenture', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Accenture.svg/2560px-Accenture.svg.png' },
-    { name: 'Goldman Sachs', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Goldman_Sachs_logo.svg/2560px-Goldman_Sachs_logo.svg.png' },
-    { name: 'Morgan Stanley', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Morgan_Stanley_logo.svg/2560px-Morgan_Stanley_logo.svg.png' },
-    { name: 'JP Morgan Chase', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/J.P._Morgan_Chase_logo_in_2008.svg/2560px-J.P._Morgan_Chase_logo_in_2008.svg.png' },
-    { name: 'Citibank', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Citibank_logo.svg/2560px-Citibank_logo.svg.png' },
-    { name: 'HSBC', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/HSBC_logo_%282018%29.svg/2560px-HSBC_logo_%282018%29.svg.png' },
-    { name: 'UBS', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/UBS_Logo_2022.svg/2560px-UBS_Logo_2022.svg.png' },
-    { name: 'Standard Chartered', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5f/Standard_Chartered_logo.svg/2560px-Standard_Chartered_logo.svg.png' },
-    { name: 'Amazon', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png' },
-    { name: 'Microsoft', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2560px-Microsoft_logo.svg.png' },
-    { name: 'Tata Administrative Services', logo: 'https://www.tas.in/images/tas_logo.png' },
-    { name: 'Aditya Birla Group', logo: 'https://companieslogo.com/img/orig/ADITYABIRLA.NS_BIG-91136b64.png?t=1648970724' },
-    { name: 'Hindustan Unilever', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Hindustan_Unilever_Logo.svg/1200px-Hindustan_Unilever_Logo.svg.png' },
-    { name: 'P&G', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Procter_%26_Gamble_logo.svg/2560px-Procter_%26_Gamble_logo.svg.png' },
-    { name: 'Nestlé', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nestle_logo.svg/2560px-Nestle_logo.svg.png' },
-    { name: 'The Coca-Cola Company', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/The_Coca-Cola_Company_logo.svg/2560px-The_Coca-Cola_Company_logo.svg.png' },
-    { name: 'AB InBev', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/AB_InBev_logo.svg/2560px-AB_InBev_logo.svg.png' },
-    { name: 'Diageo', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Diageo_logo.svg/2560px-Diageo_logo.svg.png' },
-    { name: 'ITC Limited', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/ITC_Limited_Logo.svg/1280px-ITC_Limited_Logo.svg.png' },
-    { name: 'L\'Oréal', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/L%27Or%C3%A9al_logo.svg/2560px-L%27Or%C3%A9al_logo.svg.png' },
-    { name: 'Asian Paints', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Asian_Paints_Logo.svg/1280px-Asian_Paints_Logo.svg.png' },
-    { name: 'Dabur', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Dabur_Logo.svg/1280px-Dabur_Logo.svg.png' },
-    { name: 'Airtel', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Airtel_logo.svg/2560px-Airtel_logo.svg.png' },
   ];
 
   return (
@@ -232,12 +201,6 @@ const Content: React.FC = () => {
         </div>
       </div>
 
-      <TestimonialsWithMarquee
-        title="What Our Recruiters Say"
-        description="Hear from our partners about the exceptional talent and collaborative experience at IIM Ahmedabad."
-        testimonials={testimonials}
-      />
-
       <div className="bg-white py-16 sm:py-24">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -246,7 +209,7 @@ const Content: React.FC = () => {
           </div>
           <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 items-center bg-white p-8 rounded-lg shadow-lg border border-gray-200/75">
               <div className="md:col-span-1 flex justify-center">
-                  <img src="https://iima.ac.in/sites/default/files/2022-06/Vishwanath%20Pingali.jpg" alt="Prof. Vishwanath Pingali" className="rounded-full w-48 h-48 object-cover shadow-lg" />
+                  <img src="prof_vishy.jpg" alt="Prof. Vishwanath Pingali" className="rounded-full w-48 h-48 object-cover shadow-lg" />
               </div>
               <div className="md:col-span-2 text-left font-body">
                   <h3 className="text-3xl font-display font-bold text-iima-blue">Prof. Vishwanath Pingali</h3>
@@ -305,32 +268,9 @@ const Content: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      <div className="bg-gray-50 py-16 sm:py-24">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-iima-blue">Our Esteemed Recruiters</h2>
-            <div className="mt-4 w-24 h-1 bg-iima-blue mx-auto" />
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-8 items-center">
-            {recruiters.map((recruiter, index) => (
-              <div 
-                key={index} 
-                className="p-4 flex justify-center items-center aspect-video"
-                title={recruiter.name}
-              >
-                <img
-                  src={recruiter.logo}
-                  alt={`${recruiter.name} logo`}
-                  className="max-h-12 w-auto object-contain transition-all duration-300 ease-in-out filter grayscale hover:grayscale-0 hover:scale-110"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </>
   );
 };
 
 export default Content;
+    

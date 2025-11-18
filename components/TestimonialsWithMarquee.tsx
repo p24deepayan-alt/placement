@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { cn } from "../lib/utils";
 import { TestimonialCard, TestimonialAuthor } from "./ui/TestimonialCard";
@@ -44,7 +43,13 @@ export function TestimonialsWithMarquee({
             <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
               {[...Array(4)].map((_, setIndex) =>
                 testimonials.map((testimonial, i) => (
-                  <TestimonialCard key={`${setIndex}-${i}`} {...testimonial} />
+                  // FIX: Replaced prop spreading with explicit props to resolve a TypeScript error where the 'key' prop was being incorrectly bundled with other props, causing a type mismatch with TestimonialCardProps.
+                  <TestimonialCard
+                    key={`${setIndex}-${i}`}
+                    author={testimonial.author}
+                    text={testimonial.text}
+                    href={testimonial.href}
+                  />
                 ))
               )}
             </div>
